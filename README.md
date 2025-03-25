@@ -1,0 +1,1 @@
+This is the prject dedicated to simplify work on Laboratery works and provide a tool that will deal with Latex instead of you.
