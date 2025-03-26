@@ -1,10 +1,11 @@
 #include "INCLUDE/General.h"
+#include "INCLUDE/LatexFunctions.h"
 #include "../GetLabAtr/INCLUDE/GetLabAttribute.h"
 
 const char* TexFileName  = "LATEX//OutPutFolder//lab.tex";
 const char* DataBaseName = "DataBaseCreator/CreatorData.txt";
 
-int MakeTitle(void)
+int CreateLab(void)
 {
   FILE* TexFile = fopen(TexFileName, "w");
   FILE* DataBase = fopen(DataBaseName, "r");
@@ -15,9 +16,20 @@ int MakeTitle(void)
     return 0;
   }
 
+  MakeTitle(TexFile, DataBase);
+  fclose(DataBase);
+
+  EndDocument(TexFile);
+  fclose(TexFile);
+
+  return 0;
+}
+
+
+int MakeTitle(FILE* TexFile, FILE* DataBase)
+{
   struct Creator Data = {};
   ReadDataBase(DataBase, &Data);
-
 
   fprintf(TexFile,    
 
@@ -39,7 +51,6 @@ int MakeTitle(void)
   "%% графики\n"
   "\\usepackage{pgfplots}\n"
   "\\pgfplotsset{compat=1.9}\n"
-  "\\begin{document}\n"
 
   "\\begin{document}\n\\begin{center}\n"
   "{\\large МОСКОВСКИЙ ФИЗИКО-ТЕХНИЧЕСКИЙ ИНСТИТУТ (НАЦИОНАЛЬНЫЙ ИССЛЕДОВАТЕЛЬСКИЙ УНИВЕРСИТЕТ)}\n"
@@ -63,11 +74,15 @@ int MakeTitle(void)
   "\\begin{center}\n"
   "Долгопрудный 2024\n"
   "\\end{center}\n"
-  "\\end{titlepage}", Data.Name, Data.Group
+  "\\end{titlepage}\n", Data.Name, Data.Group
   );
-
-  fclose(DataBase);
-  fclose(TexFile);
   
+  return 0;
+}
+
+
+int EndDocument(FILE* TexFile)
+{
+  fprintf(TexFile, "\\end{document}\n");
   return 0;
 }
