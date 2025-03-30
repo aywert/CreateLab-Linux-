@@ -30,6 +30,8 @@ struct Creator
 DataBase CheckCreatorDataBase(void);
 DataBase CreateDataBase(FILE* DataBase);
 int ReadDataBase(FILE* file, struct Creator* Data);
+int GetOption(void);
+char* GetStringAtr(void);
 
 // struct LabCreator
 // {

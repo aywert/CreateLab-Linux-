@@ -9,7 +9,7 @@ int main(void)
   DataBase DataBaseStatus = CheckCreatorDataBase();
   if (DataBaseStatus == ErrorDataBase)
     return 0;
-
+  
   CreateLab();
 
   return 0;

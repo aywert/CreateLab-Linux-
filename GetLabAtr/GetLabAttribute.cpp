@@ -65,8 +65,9 @@ DataBase CheckCreatorDataBase(void)
 DataBase CreateDataBase(FILE* DataBase)
 {
     //size_t fwrite( const void *buffer, size_t size, size_t count, FILE *stream );
+    
     printf("Enter your full name you want to see in your lab:\n");
-    if (!scanf("%99[^\n]", buffer))
+    if (!scanf("%[^\n]", buffer))
         return ErrorScanDataBase;
 
     int NameRead = 0;
@@ -80,7 +81,7 @@ DataBase CreateDataBase(FILE* DataBase)
 
 
     printf("Enter your study group\n");
-    if (!scanf("%99[^\n]", buffer))
+    if (!scanf("%[^\n]", buffer))
         return ErrorScanDataBase;
 
     int GroupName = 0;
@@ -94,12 +95,13 @@ DataBase CreateDataBase(FILE* DataBase)
     
 
     printf("Tell something about yourself\n");
-    if (!scanf("%99[^\n]", buffer))
+    if (!scanf("%[^\n]", buffer))
         return ErrorScanDataBase;
 
     int AddInfo= 0;
     if ((AddInfo = fwrite(buffer, sizeof(char), strlen(buffer), DataBase)) != strlen(buffer))
         return ErrorWriteDataBase;
+
     fprintf(DataBase, "\n%d\n", AddInfo);
     //Cleaning buffer
     while(getchar()!= '\n');
@@ -142,3 +144,29 @@ int ReadDataBase(FILE* file, struct Creator* Data)
     return 0;
 }
 
+int GetOption()
+{
+    int Arg = 0;
+    while(!scanf("%d", &Arg))
+    {
+        printf("Anable to read\nPlease try again\n");
+        while(getchar()!= '\n');
+    }
+
+    while(getchar()!= '\n');
+
+    return Arg;
+}
+
+char* GetStringAtr(void)
+{
+    while (!scanf("%[^\n]", buffer))
+    {
+        printf("Sorry couldn't read the line\n");
+        while(getchar()!= '\n');
+    }
+
+    while(getchar()!= '\n');
+    
+    return buffer;
+}

@@ -4,6 +4,7 @@
 
 const char* TexFileName  = "LATEX//OutPutFolder//lab.tex";
 const char* DataBaseName = "DataBaseCreator/CreatorData.txt";
+extern char* buffer;
 
 int CreateLab(void)
 {
@@ -19,7 +20,37 @@ int CreateLab(void)
   MakeTitle(TexFile, DataBase);
   fclose(DataBase);
 
-  EndDocument(TexFile);
+  int Option = 1;
+  while(Option)
+  {
+    printf(
+    "What would you like to add to your Lab?\n"
+    "Options:\n"
+    "0 - EndCreatingLab(It will produce the PDF-file automatically\n"
+    "1 - Maketable\n");
+
+    int LabArg = GetOption();
+
+    switch(LabArg)
+    {
+      case MakeTable:
+      MakeTableFunc(TexFile);
+      break;
+
+      case EndOfLab:
+      EndDocument(TexFile);
+      Option = 0;
+      break;
+      
+      default:
+      printf("I am default\n");
+      EndDocument(TexFile);
+      Option = 0;
+      break;
+    }
+
+  }
+
   fclose(TexFile);
 
   return 0;
@@ -80,6 +111,38 @@ int MakeTitle(FILE* TexFile, FILE* DataBase)
   return 0;
 }
 
+
+int MakeTableFunc(FILE* TexFile)
+{
+  printf("Enter number of colomns\n");
+  int NumOfPoints = GetOption();
+  printf("GetOptions have got %d\n", NumOfPoints);
+  printf("Enter caption for the table:\n");
+
+  fprintf(TexFile, 
+  "\\begin{table}[h!]\n"
+  "   \\begin{center}\n"
+  "   \\caption{%s}\n"
+
+  
+  
+  , GetStringAtr()); //Getting caption as the first parametr
+  return 0;
+}
+
+// \begin{table}[h!]
+//     \begin{center}
+//     \caption{Оборудование}
+    
+//     \begin{tabular}{|c|c|}
+//     \hline
+//     Прибор  &   Точность\\ \hline
+//  Штангенциркуль & $\pm 0.1$  мм\\ \hline
+//  Электронные весы  & $\pm 0.1$ г\\ \hline
+//  Секундомер  & $\pm 0.01$ с\\ \hline
+//     \end{tabular}
+//     \end{center}
+// \end{table}
 
 int EndDocument(FILE* TexFile)
 {
